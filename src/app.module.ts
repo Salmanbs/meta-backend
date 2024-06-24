@@ -4,15 +4,24 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { config } from './libs/common/configs';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      `connection_url`,
-    ),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config]
+    }),
+    MongooseModule.forRootAsync({
+      useFactory: async () => ({
+        uri: config().database.url,
+      }),
+    }),
     UsersModule,
-    AuthModule,
+    AuthModule
   ],
+  
   controllers: [AppController],
   providers: [AppService],
 })
