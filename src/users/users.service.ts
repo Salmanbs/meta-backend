@@ -15,7 +15,7 @@ export class UsersService {
 
     
     //Check if user already exists
-    const checkUser = this.getUser(lowerCaseUserName);
+    const checkUser = await this.getUser(lowerCaseUserName);
     if(checkUser){
         return {
         msg: 'User already exists',
@@ -39,8 +39,7 @@ export class UsersService {
 
 
   async getUser(username:string){
-    const lowerCaseUserName = username.toLowerCase();
-    const user = await this.userModel.findOne({username: lowerCaseUserName})
+    const user = await this.userModel.findOne({username})
     return user
   }
 }

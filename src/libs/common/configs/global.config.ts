@@ -7,5 +7,8 @@ export default registerAs(
     database: {
         url: process.env.MONGODB_URI,
       },
+    secrets:{
+      key: process.env.SECRET_KEY,
+    }
   }),
 );
